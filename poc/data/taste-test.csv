@@ -1,0 +1,117 @@
+media_type	title	creator	year	user_rating	rating_scale_max	rating_band	liked	consumed_date	source	source_id	preference_weight
+film	Cathedral		1971.0	5.0	5	very_positive		2026-03-01	letterboxd	https://boxd.it/sJTA	1.0
+film	La Haine		1995.0	5.0	5	very_positive		2024-11-08	letterboxd	https://boxd.it/2as8	1.0
+film	Monsters, Inc.		2001.0	5.0	5	very_positive		2025-06-24	letterboxd	https://boxd.it/2a46	1.0
+film	In the Mood for Love		2000.0	4.5	5	very_positive		2024-10-30	letterboxd	https://boxd.it/29tE	0.8
+film	Three Steps Above Heaven		2010.0	4.5	5	very_positive		2024-10-30	letterboxd	https://boxd.it/cpG	0.8
+film	Summer 1993		2017.0	4.5	5	very_positive		2024-10-31	letterboxd	https://boxd.it/fAfK	0.8
+film	I May Destroy You		2020.0	4.5	5	very_positive		2024-10-30	letterboxd	https://boxd.it/qX9i	0.8
+film	Lilya 4-ever		2002.0	4.5	5	very_positive		2025-09-22	letterboxd	https://boxd.it/1SyW	0.8
+film	Cria!		1976.0	4.5	5	very_positive		2025-04-22	letterboxd	https://boxd.it/AoC	0.8
+film	One Sings, the Other Doesn't		1977.0	4.5	5	very_positive		2025-04-25	letterboxd	https://boxd.it/98s	0.8
+film	Grey Gardens		1975.0	4.5	5	very_positive		2024-10-30	letterboxd	https://boxd.it/1INM	0.8
+film	Frances Ha		2012.0	4.5	5	very_positive		2024-10-30	letterboxd	https://boxd.it/41Xg	0.8
+film	Happy Together		1997.0	4.5	5	very_positive		2024-10-30	letterboxd	https://boxd.it/1Ha0	0.8
+film	A Streetcar Named Desire		1951.0	4.5	5	very_positive		2024-10-30	letterboxd	https://boxd.it/29Mc	0.8
+film	Pulp Fiction		1994.0	4.5	5	very_positive		2024-12-02	letterboxd	https://boxd.it/29Pq	0.8
+film	The Worst Person in the World		2021.0	4.5	5	very_positive		2024-10-30	letterboxd	https://boxd.it/oyws	0.8
+film	Brokeback Mountain		2005.0	4.5	5	very_positive		2024-12-29	letterboxd	https://boxd.it/2b2q	0.8
+film	Challengers		2024.0	4.5	5	very_positive		2024-10-30	letterboxd	https://boxd.it/zld0	0.8
+film	Robot Dreams		2023.0	5.0	5	very_positive		2024-11-04	letterboxd	https://boxd.it/vBZm	1.0
+film	La Dolce Vita		1960.0	5.0	5	very_positive		2025-04-05	letterboxd	https://boxd.it/2anC	1.0
+film	Le Bonheur		1965.0	4.0	5	positive		2024-11-17	letterboxd	https://boxd.it/xyk	0.6
+film	The Fifth Element		1997.0	4.0	5	positive		2024-11-03	letterboxd	https://boxd.it/71k	0.6
+film	Punch-Drunk Love		2002.0	4.0	5	positive		2024-11-08	letterboxd	https://boxd.it/20E4	0.6
+film	Triangle of Sadness		2022.0	4.0	5	positive		2024-10-30	letterboxd	https://boxd.it/hXlq	0.6
+film	BPM (Beats per Minute)		2017.0	4.0	5	positive		2024-10-30	letterboxd	https://boxd.it/g796	0.6
+film	Millennium Actress		2001.0	4.0	5	positive		2024-10-30	letterboxd	https://boxd.it/1fK0	0.6
+film	The Jungle Book		1967.0	4.0	5	positive		2025-10-12	letterboxd	https://boxd.it/1YY2	0.6
+film	Petite Maman		2021.0	4.0	5	positive		2024-10-30	letterboxd	https://boxd.it/s6je	0.6
+film	The Notebook		2004.0	4.0	5	positive		2024-10-31	letterboxd	https://boxd.it/1UNE	0.6
+film	Rotting in the Sun		2023.0	4.0	5	positive		2024-12-14	letterboxd	https://boxd.it/E37y	0.6
+film	Match Point		2005.0	4.0	5	positive		2024-10-30	letterboxd	https://boxd.it/2b6s	0.6
+film	Thesis		1996.0	4.0	5	positive		2024-10-30	letterboxd	https://boxd.it/1Z1U	0.6
+film	All About My Mother		1999.0	4.0	5	positive		2024-10-30	letterboxd	https://boxd.it/2b9c	0.6
+film	Blue Is the Warmest Color		2013.0	4.0	5	positive		2024-10-30	letterboxd	https://boxd.it/4O40	0.6
+film	Paris, Texas		1984.0	4.0	5	positive		2024-10-30	letterboxd	https://boxd.it/29Ts	0.6
+film	The Piano Teacher		2001.0	4.0	5	positive		2024-10-30	letterboxd	https://boxd.it/2886	0.6
+film	Carol & the End of the World		2023.0	4.0	5	positive		2024-11-09	letterboxd	https://boxd.it/KihU	0.6
+film	Life Is Beautiful		1997.0	4.0	5	positive		2024-10-31	letterboxd	https://boxd.it/29Wm	0.6
+film	A Separation		2011.0	4.0	5	positive		2025-07-07	letterboxd	https://boxd.it/gvo	0.6
+film	Pain and Glory		2019.0	4.0	5	positive		2024-10-30	letterboxd	https://boxd.it/iOBQ	0.6
+film	Eternal Sunshine of the Spotless Mind		2004.0	3.5	5	neutralish		2024-10-31	letterboxd	https://boxd.it/6YK	0.25
+film	Pam & Tommy		2022.0	3.5	5	neutralish		2024-10-31	letterboxd	https://boxd.it/yMAy	0.25
+film	Cast Away		2000.0	3.5	5	neutralish		2024-11-05	letterboxd	https://boxd.it/20i8	0.25
+film	Super 8		2011.0	3.0	5	neutralish		2024-12-04	letterboxd	https://boxd.it/dVI	0.0
+film	Raw		2016.0	3.5	5	neutralish		2024-10-30	letterboxd	https://boxd.it/dLd2	0.25
+film	Standing Tall		2015.0	3.5	5	neutralish		2024-12-04	letterboxd	https://boxd.it/aNqm	0.25
+film	The Shape of Water		2017.0	3.5	5	neutralish		2024-10-31	letterboxd	https://boxd.it/dZ5m	0.25
+film	The Theory of Everything		2014.0	3.5	5	neutralish		2024-10-31	letterboxd	https://boxd.it/7YtA	0.25
+film	Passages		2023.0	3.5	5	neutralish		2024-10-30	letterboxd	https://boxd.it/xX9c	0.25
+film	Minari		2020.0	3.5	5	neutralish		2024-10-30	letterboxd	https://boxd.it/mL9M	0.25
+film	Bones and All		2022.0	3.5	5	neutralish		2024-10-30	letterboxd	https://boxd.it/tLd4	0.25
+film	Blue Velvet		1986.0	3.5	5	neutralish		2024-10-30	letterboxd	https://boxd.it/29BI	0.25
+film	The Flower of My Secret		1995.0	3.5	5	neutralish		2024-10-30	letterboxd	https://boxd.it/24we	0.25
+film	Golden Balls		1993.0	3.5	5	neutralish		2024-10-30	letterboxd	https://boxd.it/K3Y	0.25
+film	Elisa & Marcela		2019.0	3.0	5	neutralish		2024-10-30	letterboxd	https://boxd.it/jukM	0.0
+film	The Bride		2015.0	3.0	5	neutralish		2024-10-31	letterboxd	https://boxd.it/bN6I	0.0
+film	Marshland		2014.0	3.5	5	neutralish		2024-12-02	letterboxd	https://boxd.it/6Yjo	0.25
+film	Only Lovers Left Alive		2013.0	3.0	5	neutralish		2025-03-22	letterboxd	https://boxd.it/4O1U	0.0
+film	Joy		2015.0	3.0	5	neutralish		2024-10-30	letterboxd	https://boxd.it/8kEU	0.0
+film	Legally Blonde		2001.0	3.5	5	neutralish		2024-11-05	letterboxd	https://boxd.it/1ZNa	0.25
+film	Queer		2024.0	2.0	5	negative		2025-03-14	letterboxd	https://boxd.it/E4RW	-0.6
+film	Beautiful Boy		2018.0	2.5	5	negative		2024-11-03	letterboxd	https://boxd.it/g76Q	-0.25
+film	Don't Worry Darling		2022.0	2.5	5	negative		2024-11-03	letterboxd	https://boxd.it/mViu	-0.25
+film	The Other Way Around		2024.0	2.5	5	negative		2024-12-30	letterboxd	https://boxd.it/K448	-0.25
+film	Kinds of Kindness		2024.0	2.5	5	negative		2024-12-13	letterboxd	https://boxd.it/CWPw	-0.25
+film	Conclave		2024.0	2.5	5	negative		2025-05-04	letterboxd	https://boxd.it/AO8q	-0.25
+film	Julieta		2016.0	2.0	5	negative		2024-10-30	letterboxd	https://boxd.it/aY26	-0.6
+film	Café Society		2016.0	2.5	5	negative		2024-10-30	letterboxd	https://boxd.it/bhEy	-0.25
+film	Priscilla		2023.0	2.5	5	negative		2024-10-30	letterboxd	https://boxd.it/Cz3k	-0.25
+film	Don't Look Up		2021.0	2.5	5	negative		2024-10-30	letterboxd	https://boxd.it/o0Hc	-0.25
+film	Nomadland		2020.0	2.5	5	negative		2024-10-30	letterboxd	https://boxd.it/lnRy	-0.25
+film	Bohemian Rhapsody		2018.0	2.5	5	negative		2024-11-08	letterboxd	https://boxd.it/f1TK	-0.25
+film	Miracle in Cell No. 7		2019.0	2.5	5	negative		2024-11-22	letterboxd	https://boxd.it/nFrM	-0.25
+film	Deep Red		1975.0	2.5	5	negative		2024-10-31	letterboxd	https://boxd.it/1E1E	-0.25
+film	Sideways		2004.0	2.5	5	negative		2024-10-31	letterboxd	https://boxd.it/1Y5c	-0.25
+film	By the Sea		2015.0	2.5	5	negative		2024-10-30	letterboxd	https://boxd.it/a86q	-0.25
+film	Incredibles 2		2018.0	2.5	5	negative		2025-10-12	letterboxd	https://boxd.it/7IPg	-0.25
+film	House of Gucci		2021.0	2.5	5	negative		2024-10-31	letterboxd	https://boxd.it/nVkC	-0.25
+film	The Bar		2017.0	2.5	5	negative		2024-10-30	letterboxd	https://boxd.it/eRT6	-0.25
+film	Ad Astra		2019.0	2.5	5	negative		2024-10-31	letterboxd	https://boxd.it/ePzI	-0.25
+film	Palo Alto		2013.0	1.0	5	very_negative		2024-10-31	letterboxd	https://boxd.it/5Nzy	-1.0
+film	The Nun		2018.0	1.5	5	very_negative		2024-11-01	letterboxd	https://boxd.it/fBkw	-0.8
+film	Emilia Pérez		2024.0	0.5	5	very_negative		2025-02-23	letterboxd	https://boxd.it/AP3G	-1.0
+film	The Circle		2017.0	1.5	5	very_negative		2024-11-09	letterboxd	https://boxd.it/bj1I	-0.8
+film	Malcolm & Marie		2021.0	1.0	5	very_negative		2025-01-04	letterboxd	https://boxd.it/r5cO	-1.0
+film	Someone Has to Die		2020.0	1.5	5	very_negative		2024-11-17	letterboxd	https://boxd.it/skxk	-0.8
+film	Wicked: For Good		2025.0	1.5	5	very_negative		2025-11-27	letterboxd	https://boxd.it/AyfK	-0.8
+film	Sirāt		2025.0	4.0	5	positive		2025-06-13	letterboxd	https://boxd.it/HxJo	0.6
+film	Barb & Star Go to Vista Del Mar		2021.0	4.5	5	very_positive		2024-12-22	letterboxd	https://boxd.it/lX9M	0.8
+film	Marie Antoinette		2006.0	4.0	5	positive		2024-12-02	letterboxd	https://boxd.it/27Wa	0.6
+film	Wonder Wheel		2017.0	3.5	5	neutralish		2024-11-08	letterboxd	https://boxd.it/fcGC	0.25
+film	Marty Supreme		2025.0	4.5	5	very_positive		2026-02-08	letterboxd	https://boxd.it/Off0	0.8
+film	Madly in Life		2020.0	3.5	5	neutralish		2024-12-02	letterboxd	https://boxd.it/s3M8	0.25
+film	The Swimming Pool		1969.0	4.0	5	positive		2024-11-05	letterboxd	https://boxd.it/23BC	0.6
+film	Somewhere		2010.0	4.0	5	positive		2024-10-30	letterboxd	https://boxd.it/14du	0.6
+film	The Adventures of Priscilla, Queen of the Desert		1994.0	4.5	5	very_positive		2024-10-30	letterboxd	https://boxd.it/26mg	0.8
+film	The Truman Show		1998.0	3.5	5	neutralish		2025-01-19	letterboxd	https://boxd.it/18U8	0.25
+film	tick, tick... BOOM!		2021.0	3.5	5	neutralish		2024-12-02	letterboxd	https://boxd.it/jz2e	0.25
+film	Cars		2006.0	4.5	5	very_positive		2025-10-12	letterboxd	https://boxd.it/29ho	0.8
+film	Cloud Atlas		2012.0	4.0	5	positive		2024-10-31	letterboxd	https://boxd.it/2W60	0.6
+book	A Little Life	Hanya Yanagihara	2015.0	5.0	5	very_positive		2023/09/01	goodreads	22822858	1.0
+book	Pearl	Siân Hughes	2023.0	5.0	5	very_positive		2024/10/01	goodreads	122758113	1.0
+book	The Story of the Lost Child (Neapolitan Novels, #4)	Elena Ferrante	2014.0	5.0	5	very_positive		2022/08/01	goodreads	25242224	1.0
+book	The Year of Magical Thinking	Joan Didion	2005.0	5.0	5	very_positive		2024/12/01	goodreads	7815	1.0
+book	Crime and Punishment	Fyodor Dostoevsky	1866.0	4.0	5	positive		2025/12/01	goodreads	7144	0.6
+book	Dune Messiah (Dune #2)	Frank Herbert	1969.0	4.0	5	positive		2024/09/01	goodreads	44492285	0.6
+book	Kala	Colin Walsh	2023.0	4.0	5	positive		2024/06/01	goodreads	63184768	0.6
+book	Temporada de huracanes	Fernanda Melchor	2017.0	4.0	5	positive		2025/07/01	goodreads	34847511	0.6
+book	Young Mungo	Douglas   Stuart	2022.0	4.0	5	positive		2024/04/01	goodreads	58891551	0.6
+book	Être écoféministe: Théories et pratiques	Jeanne Burgart Goutal	2020.0	4.0	5	positive		2021/08/01	goodreads	53305090	0.6
+book	Covarda, vella, tan salvatge	Arià Paco Abenoza	2022.0	2.0	5	negative		2025/05/01	goodreads	61675614	-0.6
+book	Facendera	Óscar García Sierra	2022.0	2.0	5	negative		2025/12/01	goodreads	60818212	-0.6
+book	La Communale	Marc Faysse	2019.0	2.0	5	negative		2020/04/01	goodreads	50111524	-0.6
+book	Los guapos	Esther García Llovet	2024.0	2.0	5	negative		2024/10/01	goodreads	205456472	-0.6
+book	Tirant lo Blanc. Episodis Amorosos	Joanot Martorell	2012.0	2.0	5	negative		2017/02/01	goodreads	17229864	-0.6
+book	Vers la beauté	David Foenkinos	2018.0	2.0	5	negative		2024/03/01	goodreads	39329210	-0.6
