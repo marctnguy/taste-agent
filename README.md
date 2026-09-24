@@ -68,12 +68,6 @@ taste-agent/
 │   │   └── taste-model-v03-example.json
 │   └── screenshots/
 │
-├── compliance/
-│   ├── ai-act-classification.md
-│   ├── conformity-assessment-summary.md
-│   ├── technical-documentation-outline.md
-│   └── gdpr-dpia.md
-│
 └── presentation/
     └── final-presentation.pdf
 ```
