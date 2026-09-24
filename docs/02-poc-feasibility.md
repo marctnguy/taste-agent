@@ -946,4 +946,4 @@ The Pilot should determine whether the additional semantic intelligence produces
 * [`01-use-case-business-case.md`](01-use-case-business-case.md) — Why the opportunity is commercially relevant
 * [`03-roi-risk-assessment.md`](03-roi-risk-assessment.md) — Whether the potential value justifies cost and risk
 * [`04-compliance.md`](04-compliance.md) — EU AI Act and GDPR implications
-* [`05-deployment-commercialisation.md`](05-deployment-commercialisation.md) — How the project could progress from POC to production
+* [`05-deployment-commercialisation.md`](05-strategic-deployment-plan.md) — How the project could progress from POC to production
