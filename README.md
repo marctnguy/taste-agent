@@ -63,7 +63,7 @@ taste-agent/
 │   ├── workflow/
 │   │   └── taste-agent-poc-v03.json
 │   ├── data/
-│   │   └── synthetic-taste-test.csv
+│   │   └── taste-test.csv
 │   ├── results/
 │   │   └── taste-model-v03-example.json
 │   └── screenshots/
