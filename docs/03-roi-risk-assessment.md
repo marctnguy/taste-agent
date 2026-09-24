@@ -1134,4 +1134,4 @@ This staged approach limits downside while preserving the potential upside of de
 * [`01-use-case-business-case.md`](01-use-case-business-case.md) — Strategic opportunity and business case
 * [`02-poc-feasibility.md`](02-poc-feasibility.md) — Technical feasibility evidence
 * [`04-compliance.md`](04-compliance.md) — EU AI Act and GDPR assessment
-* [`05-deployment-commercialisation.md`](05-deployment-commercialisation.md) — POC → Pilot → Production strategy
+* [`05-deployment-commercialisation.md`](05-strategic-deployment-plan.md) — POC → Pilot → Production strategy
