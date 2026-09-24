@@ -1065,4 +1065,4 @@ This boundary reduces regulatory risk while remaining sufficient for the product
 * [`01-use-case-business-case.md`](01-use-case-business-case.md) — Strategic and commercial rationale
 * [`02-poc-feasibility.md`](02-poc-feasibility.md) — Technical feasibility and AI architecture
 * [`03-roi-risk-assessment.md`](03-roi-risk-assessment.md) — Financial and operational risk assessment
-* [`05-deployment-commercialisation.md`](05-deployment-commercialisation.md) — Deployment and commercialization strategy
+* [`05-deployment-commercialisation.md`](05-strategic-deployment-plan.md) — Deployment and commercialization strategy
