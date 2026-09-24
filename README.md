@@ -57,7 +57,7 @@ taste-agent/
 │   ├── 02-poc-feasibility.md
 │   ├── 03-roi-risk-assessment.md
 │   ├── 04-compliance.md
-│   └── 05-deployment-commercialisation.md
+│   └── 05-strategic-deployment-plan.md
 │
 ├── poc/
 │   ├── workflow/
@@ -86,7 +86,7 @@ taste-agent/
 | [`02-poc-feasibility.md`](docs/02-poc-feasibility.md) | POC architecture, experiments, methodology, results and limitations |
 | [`03-roi-risk-assessment.md`](docs/03-roi-risk-assessment.md) | Implementation costs, 12/36-month ROI scenarios and risk assessment |
 | [`04-compliance.md`](docs/04-compliance.md) | EU AI Act and GDPR assessment |
-| [`05-deployment-commercialisation.md`](docs/05-deployment-commercialisation.md) | POC → Pilot → Full Deployment roadmap and commercialisation strategy |
+| [`05-deployment-commercialisation.md`](docs/05-strategic-deployment-plan.md) | POC → Pilot → Full Deployment roadmap and commercialisation strategy |
 
 ## Technology
 
