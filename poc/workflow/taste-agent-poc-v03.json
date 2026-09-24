@@ -1,0 +1,561 @@
+{
+  "name": "Taste Agent POC v03",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "42f16cb4-cb7d-4ebd-8d2f-3fd3c589acfe",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.media_type }}",
+                    "rightValue": "film",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "f7c4f727-2ba5-4d8f-8e80-03a1e77ce38c"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Films"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "8ae7acf5-531d-417f-a256-37da58eae32e",
+                    "leftValue": "={{ $json.media_type }}",
+                    "rightValue": "book",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Books"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        416,
+        0
+      ],
+      "id": "1f275caf-4bae-4874-8220-db6523de5c97",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "url": "https://api.themoviedb.org/3/search/movie",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "query",
+              "value": "={{ $json.title }}"
+            },
+            {
+              "name": "year",
+              "value": "={{ $json.year }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        624,
+        -208
+      ],
+      "id": "0b1b6015-072f-4e75-839d-7c0e6ba434fa",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpBearerAuth": {
+          "name": "Bearer Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        832,
+        -128
+      ],
+      "id": "dae375c3-3961-4fb7-9c01-f9e34d4f2068",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "url": "https://www.googleapis.com/books/v1/volumes",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "q",
+              "value": "={{ 'intitle:' + $json.title.replace(/\\s*\\([^)]*#\\s*\\d+[^)]*\\)\\s*$/i, '').trim() + ' inauthor:' + $json.creator }}"
+            },
+            {
+              "name": "printType",
+              "value": "books"
+            },
+            {
+              "name": "maxResults",
+              "value": "10"
+            },
+            {
+              "name": "key",
+              "value": "={{ $env.GOOGLE_BOOKS_API_KEY }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        624,
+        176
+      ],
+      "id": "37c2d9a4-cad8-4062-8254-1acf5ca1cf80",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        832,
+        112
+      ],
+      "id": "1154ed4a-63be-401a-8c41-471ba0b58fe6",
+      "name": "Merge1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1264,
+        0
+      ],
+      "id": "7bf447bf-e650-42ba-b144-327769cde1ff",
+      "name": "Merge2"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "responses": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are a semantic classification system for cultural works.\n\nYour task is to classify the WORK itself using the provided semantic taxonomy.\n\nDo not infer anything about the user, their personality, identity, demographics, politics, mental health, or motivations.\n\nDo not use the user's rating, like status, preference class, or other preference signals when assigning semantic scores.\n\nScore every taxonomy dimension from 0.0 to 1.0:\n\n0.00 = not present or not applicable\n0.25 = weakly present\n0.50 = moderately present\n0.75 = strongly present\n1.00 = defining characteristic\n\nIntermediate values are allowed when justified.\n\nUse only information reasonably supported by the supplied metadata and description. Do not assume that a characteristic applies merely because it is common for the genre.\n\nReturn ONLY valid JSON. Do not use Markdown or add commentary."
+            },
+            {
+              "content": "=MEDIA TYPE:\n{{ $json.media_type }}\n\nTITLE:\n{{ $json.title }}\n\nCREATOR:\n{{ $json.creator }}\n\nYEAR:\n{{ $json.year }}\n\nDESCRIPTION:\n{{ $json.ai_description }}\n\nCATEGORIES / GENRES:\n{{ JSON.stringify($json.ai_genres) }}"
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {
+          "textFormat": {
+            "textOptions": {
+              "type": "json_schema",
+              "name": "tasteagent_schema",
+              "schema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"themes\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"identity\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"love_desire\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"grief\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"class\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"family\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"alienation\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"coming_of_age\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"power\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"morality\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"friendship\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 }\n      },\n      \"required\": [\n        \"identity\",\n        \"love_desire\",\n        \"grief\",\n        \"class\",\n        \"family\",\n        \"alienation\",\n        \"coming_of_age\",\n        \"power\",\n        \"morality\",\n        \"friendship\"\n      ],\n      \"additionalProperties\": false\n    },\n    \"character\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"morally_ambiguous\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"dysfunctional_relationships\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"intimate_relationships\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"outsider_protagonist\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"ensemble\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"anti_hero\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 }\n      },\n      \"required\": [\n        \"morally_ambiguous\",\n        \"dysfunctional_relationships\",\n        \"intimate_relationships\",\n        \"outsider_protagonist\",\n        \"ensemble\",\n        \"anti_hero\"\n      ],\n      \"additionalProperties\": false\n    },\n    \"narrative\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"character_driven\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"plot_driven\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"nonlinear\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"ambiguous\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"episodic\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"conventional\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"complex\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 }\n      },\n      \"required\": [\n        \"character_driven\",\n        \"plot_driven\",\n        \"nonlinear\",\n        \"ambiguous\",\n        \"episodic\",\n        \"conventional\",\n        \"complex\"\n      ],\n      \"additionalProperties\": false\n    },\n    \"pacing_energy\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"slow_burn\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"contemplative\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"moderate\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"fast_paced\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"high_energy\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 }\n      },\n      \"required\": [\n        \"slow_burn\",\n        \"contemplative\",\n        \"moderate\",\n        \"fast_paced\",\n        \"high_energy\"\n      ],\n      \"additionalProperties\": false\n    },\n    \"tone\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"melancholic\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"darkly_comic\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"romantic\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"unsettling\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"sentimental\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"absurd\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"ethereal\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"bizarre\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"joyful\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"tense\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"comforting\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"playful\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 }\n      },\n      \"required\": [\n        \"melancholic\",\n        \"darkly_comic\",\n        \"romantic\",\n        \"unsettling\",\n        \"sentimental\",\n        \"absurd\",\n        \"ethereal\",\n        \"bizarre\",\n        \"joyful\",\n        \"tense\",\n        \"comforting\",\n        \"playful\"\n      ],\n      \"additionalProperties\": false\n    },\n    \"style\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"naturalistic\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"experimental\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"minimalist\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"maximalist\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"dialogue_heavy\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"atmospheric\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"stylized\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"surreal\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"visual\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 }\n      },\n      \"required\": [\n        \"naturalistic\",\n        \"experimental\",\n        \"minimalist\",\n        \"maximalist\",\n        \"dialogue_heavy\",\n        \"atmospheric\",\n        \"stylized\",\n        \"surreal\",\n        \"visual\"\n      ],\n      \"additionalProperties\": false\n    },\n    \"accessibility\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"accessible\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"challenging\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"abstract\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"niche\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 }\n      },\n      \"required\": [\n        \"accessible\",\n        \"challenging\",\n        \"abstract\",\n        \"niche\"\n      ],\n      \"additionalProperties\": false\n    },\n    \"temporal_cultural\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"contemporary\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"historical\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"nostalgic\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 }\n      },\n      \"required\": [\n        \"contemporary\",\n        \"historical\",\n        \"nostalgic\"\n      ],\n      \"additionalProperties\": false\n    },\n    \"intensity\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"emotional_intensity\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"violence\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"suspense\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"sexuality\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"psychological_intensity\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n        \"contained\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 }\n      },\n      \"required\": [\n        \"emotional_intensity\",\n        \"violence\",\n        \"suspense\",\n        \"sexuality\",\n        \"psychological_intensity\",\n        \"contained\"\n      ],\n      \"additionalProperties\": false\n    }\n  },\n  \"required\": [\n    \"themes\",\n    \"character\",\n    \"narrative\",\n    \"pacing_energy\",\n    \"tone\",\n    \"style\",\n    \"accessibility\",\n    \"temporal_cultural\",\n    \"intensity\"\n  ],\n  \"additionalProperties\": false\n}",
+              "strict": true
+            }
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.1,
+      "position": [
+        1920,
+        -128
+      ],
+      "id": "0ec5a1a0-ce67-4503-a998-2c40a8b47321",
+      "name": "Message a model",
+      "credentials": {
+        "openAiApi": {
+          "name": "OpenAi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "94f55387-30b3-48db-9c9d-7d593b7194ad",
+              "leftValue": "={{ $json.ready_for_ai }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1680,
+        0
+      ],
+      "id": "5d727085-3de3-4cc0-aa00-b70ec1087016",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        2240,
+        -32
+      ],
+      "id": "54ac1244-f8f7-479a-8cd1-aedc2f5c5105",
+      "name": "Merge3"
+    },
+    {
+      "parameters": {
+        "jsCode": "const normalize = (str) =>\n  (str || \"\")\n    .toLowerCase()\n    .normalize(\"NFD\")\n    .replace(/[\\u0300-\\u036f]/g, \"\")\n    .replace(/[^a-z0-9]/g, \"\");\n\n// Helps compare \"Hanya Yanagihara\" etc.\nconst normalizeAuthor = (str) => normalize(str);\n\nreturn $input.all().map(item => {\n  const data = item.json;\n\n  const originalTitle = data.title || \"\";\n  const originalAuthor = data.creator || \"\";\n  const originalYear = Number(data.year);\n\n  const candidates = data.items || [];\n\n  let match = null;\n  let matchMethod = \"unmatched\";\n\n  // 1. Strongest match: title + author + year\n  match = candidates.find(book => {\n    const info = book.volumeInfo || {};\n\n    const titleMatches =\n      normalize(info.title) === normalize(originalTitle);\n\n    const authorMatches =\n      (info.authors || []).some(author =>\n        normalizeAuthor(author) === normalizeAuthor(originalAuthor)\n      );\n\n    const bookYear = info.publishedDate\n      ? Number(info.publishedDate.substring(0, 4))\n      : null;\n\n    return (\n      titleMatches &&\n      authorMatches &&\n      bookYear === originalYear\n    );\n  });\n\n  if (match) {\n    matchMethod = \"title_author_year\";\n  }\n\n  // 2. Fallback: title + author\n  if (!match) {\n    match = candidates.find(book => {\n      const info = book.volumeInfo || {};\n\n      const titleMatches =\n        normalize(info.title) === normalize(originalTitle);\n\n      const authorMatches =\n        (info.authors || []).some(author =>\n          normalizeAuthor(author) === normalizeAuthor(originalAuthor)\n        );\n\n      return titleMatches && authorMatches;\n    });\n\n    if (match) {\n      matchMethod = \"title_author\";\n    }\n  }\n\n  // 3. Last fallback: exact title\n  if (!match) {\n    match = candidates.find(book => {\n      const info = book.volumeInfo || {};\n\n      return normalize(info.title) === normalize(originalTitle);\n    });\n\n    if (match) {\n      matchMethod = \"title_only\";\n    }\n  }\n\n  const info = match?.volumeInfo || {};\n\n  // Extract ISBNs cleanly\n  const isbn13 =\n    (info.industryIdentifiers || [])\n      .find(id => id.type === \"ISBN_13\")?.identifier ?? null;\n\n  const isbn10 =\n    (info.industryIdentifiers || [])\n      .find(id => id.type === \"ISBN_10\")?.identifier ?? null;\n\n  return {\n    json: {\n      // ORIGINAL GOODREADS DATA\n      media_type: data.media_type,\n      title: data.title,\n      creator: data.creator,\n      year: data.year,\n      user_rating: data.user_rating,\n      rating_scale_max: data.rating_scale_max,\n      preference_class: data.preference_class,\n      liked: data.liked,\n      consumed_date: data.consumed_date,\n      source: data.source,\n      source_id: data.source_id,\n\n      // MATCH AUDIT\n      google_books_match_found: !!match,\n      google_books_match_method: matchMethod,\n\n      // GOOGLE BOOKS DATA\n      google_books_id: match?.id ?? null,\n      google_books_title: info.title ?? null,\n      google_books_subtitle: info.subtitle ?? null,\n      google_books_authors: info.authors ?? [],\n      google_books_published_date: info.publishedDate ?? null,\n      google_books_description: info.description ?? null,\n      google_books_categories: info.categories ?? [],\n      google_books_language: info.language ?? null,\n      google_books_page_count: info.pageCount ?? null,\n      google_books_average_rating: info.averageRating ?? null,\n      google_books_ratings_count: info.ratingsCount ?? null,\n      google_books_isbn_13: isbn13,\n      google_books_isbn_10: isbn10\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1040,
+        112
+      ],
+      "id": "123240af-3c1d-4f6b-aba7-871927ba89c5",
+      "name": "Enrich w/ metadata"
+    },
+    {
+      "parameters": {
+        "jsCode": "const normalize = (str) =>\n  (str || \"\")\n    .toLowerCase()\n    .normalize(\"NFD\")\n    .replace(/[\\u0300-\\u036f]/g, \"\")\n    .replace(/[^a-z0-9]/g, \"\");\n\nreturn $input.all().map(item => {\n  const data = item.json;\n\n  const originalTitle = data.title;\n  const originalYear = Number(data.year);\n  const candidates = data.results || [];\n\n  let match = null;\n  let matchMethod = \"unmatched\";\n\n  // 1. Strong match: title + year\n  match = candidates.find(movie => {\n    const movieYear = movie.release_date\n      ? Number(movie.release_date.substring(0, 4))\n      : null;\n\n    return (\n      (\n        normalize(movie.title) === normalize(originalTitle) ||\n        normalize(movie.original_title) === normalize(originalTitle)\n      ) &&\n      movieYear === originalYear\n    );\n  });\n\n  if (match) {\n    matchMethod = \"title_and_year\";\n  }\n\n  // 2. Fallback: title only\n  if (!match) {\n    match = candidates.find(movie =>\n      normalize(movie.title) === normalize(originalTitle) ||\n      normalize(movie.original_title) === normalize(originalTitle)\n    );\n\n    if (match) {\n      matchMethod = \"title_only\";\n    }\n  }\n\n  return {\n    json: {\n      media_type: data.media_type,\n      title: data.title,\n      creator: data.creator,\n      year: data.year,\n      user_rating: data.user_rating,\n      rating_scale_max: data.rating_scale_max,\n      preference_class: data.preference_class,\n      liked: data.liked,\n      consumed_date: data.consumed_date,\n      source: data.source,\n      source_id: data.source_id,\n\n      tmdb_match_found: !!match,\n      tmdb_match_method: matchMethod,\n\n      tmdb_id: match?.id ?? null,\n      tmdb_title: match?.title ?? null,\n      tmdb_original_title: match?.original_title ?? null,\n      tmdb_release_date: match?.release_date ?? null,\n      tmdb_overview: match?.overview ?? null,\n      tmdb_genre_ids: match?.genre_ids ?? [],\n      tmdb_original_language: match?.original_language ?? null,\n      tmdb_popularity: match?.popularity ?? null,\n      tmdb_vote_average: match?.vote_average ?? null,\n      tmdb_vote_count: match?.vote_count ?? null\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1040,
+        -128
+      ],
+      "id": "14f9bc1b-383b-4262-bc2b-284ff16f7d2f",
+      "name": "Enrich w/ metadata1"
+    },
+    {
+      "parameters": {
+        "jsCode": "const tmdbGenres = {\n  28: \"Action\",\n  12: \"Adventure\",\n  16: \"Animation\",\n  35: \"Comedy\",\n  80: \"Crime\",\n  99: \"Documentary\",\n  18: \"Drama\",\n  10751: \"Family\",\n  14: \"Fantasy\",\n  36: \"History\",\n  27: \"Horror\",\n  10402: \"Music\",\n  9648: \"Mystery\",\n  10749: \"Romance\",\n  878: \"Science Fiction\",\n  10770: \"TV Movie\",\n  53: \"Thriller\",\n  10752: \"War\",\n  37: \"Western\"\n};\n\nfunction isTrue(value) {\n  return value === true || String(value).toLowerCase() === \"true\";\n}\n\nreturn $input.all().map(item => {\n  const data = item.json;\n\n  const isFilm = data.media_type === \"film\";\n  const isBook = data.media_type === \"book\";\n\n  // Standardise genres/categories\n  const genres = isFilm\n    ? (data.tmdb_genre_ids || []).map(\n        id => tmdbGenres[id] || `Unknown (${id})`\n      )\n    : (data.google_books_categories || []);\n\n  // Standardise description\n  const description = isFilm\n    ? data.tmdb_overview\n    : data.google_books_description;\n\n  // Standardise match status\n  const metadataMatchFound = isFilm\n    ? isTrue(data.tmdb_match_found)\n    : isBook\n      ? isTrue(data.google_books_match_found)\n      : false;\n\n  const hasDescription =\n    typeof description === \"string\" &&\n    description.trim().length >= 20;\n\n  const readyForAI =\n    metadataMatchFound && hasDescription;\n\n  return {\n    json: {\n      ...data,\n\n      ai_genres: genres,\n      ai_description: description || null,\n\n      metadata_match_found: metadataMatchFound,\n      has_description: hasDescription,\n      ready_for_ai: readyForAI\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1472,
+        0
+      ],
+      "id": "a17617d2-8dcf-4289-89b3-bf20d319cfa6",
+      "name": "AI prep"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ============================================================\n// TASTE MODEL v0.3\n// Continuous preference model + Pearson correlation\n// ============================================================\n//\n// MAIN CONCEPTS\n//\n// prevalence:\n//   How present is a semantic characteristic across consumed works?\n//\n// preference_association:\n//   Pearson correlation between semantic presence and the user's\n//   rating-derived preference weight.\n//\n//   Range: -1 to +1\n//   Positive = stronger presence tends to accompany higher ratings\n//   Negative = stronger presence tends to accompany lower ratings\n//   Near 0 = little/no linear relationship\n//\n// evidence_count:\n//   Number of works where the dimension is meaningfully present.\n//\n// evidence_confidence:\n//   POC heuristic describing the amount and diversity of evidence.\n//   It is NOT the probability that the inferred preference is true.\n//\n// ============================================================\n\n\nconst items = $input.all();\n\n\n// ============================================================\n// HELPERS\n// ============================================================\n\nfunction getSemanticData(j) {\n\n  // Expected OpenAI structured output\n  let semantic = j.output?.[0]?.content?.[0]?.text;\n\n  // Sometimes structured output may arrive as a JSON string\n  if (typeof semantic === 'string') {\n    try {\n      semantic = JSON.parse(semantic);\n    } catch {\n      return null;\n    }\n  }\n\n  // Optional fallback if semantic data was normalized upstream\n  if (!semantic && j.semantic && typeof j.semantic === 'object') {\n    semantic = j.semantic;\n  }\n\n  return semantic && typeof semantic === 'object'\n    ? semantic\n    : null;\n}\n\n\nfunction round(value, decimals = 3) {\n\n  if (!Number.isFinite(value)) {\n    return null;\n  }\n\n  const factor = 10 ** decimals;\n\n  return Math.round(value * factor) / factor;\n}\n\n\n// ============================================================\n// PEARSON CORRELATION\n// ============================================================\n//\n// Measures linear association between:\n//\n// X = semantic score\n// Y = preference weight\n//\n// Returns a value between -1 and +1.\n//\n// ============================================================\n\nfunction pearsonCorrelation(xs, ys) {\n\n  if (\n    xs.length !== ys.length ||\n    xs.length < 2\n  ) {\n    return 0;\n  }\n\n  const n = xs.length;\n\n  const meanX =\n    xs.reduce((sum, x) => sum + x, 0) / n;\n\n  const meanY =\n    ys.reduce((sum, y) => sum + y, 0) / n;\n\n\n  let numerator = 0;\n  let denominatorX = 0;\n  let denominatorY = 0;\n\n\n  for (let i = 0; i < n; i++) {\n\n    const dx = xs[i] - meanX;\n    const dy = ys[i] - meanY;\n\n    numerator += dx * dy;\n\n    denominatorX += dx * dx;\n    denominatorY += dy * dy;\n  }\n\n\n  const denominator =\n    Math.sqrt(\n      denominatorX * denominatorY\n    );\n\n\n  // No variation in one of the variables means\n  // correlation is undefined.\n  // For the POC we treat this as no usable association.\n  if (denominator === 0) {\n    return 0;\n  }\n\n\n  return numerator / denominator;\n}\n\n\n// ============================================================\n// RATING → PREFERENCE WEIGHT\n// ============================================================\n\nconst weightMap = {\n\n  5:   1.00,\n  4.5: 0.80,\n  4:   0.60,\n  3.5: 0.25,\n  3:   0.00,\n  2.5: -0.25,\n  2:   -0.60,\n  1.5: -0.80,\n  1:   -1.00,\n  0.5: -1.00\n\n};\n\n\n// ============================================================\n// COLLECT VALID WORKS\n// ============================================================\n\nconst works = [];\n\n\nfor (const item of items) {\n\n  const j = item.json;\n\n  const semantic =\n    getSemanticData(j);\n\n\n  if (!semantic) {\n    continue;\n  }\n\n\n  const rating =\n    Number(j.user_rating);\n\n\n  let preferenceWeight =\n    Number(j.preference_weight);\n\n\n  // Fallback:\n  // derive weight directly from rating if the CSV field\n  // disappeared somewhere upstream.\n  if (!Number.isFinite(preferenceWeight)) {\n\n    preferenceWeight =\n      weightMap[rating];\n\n  }\n\n\n  if (!Number.isFinite(preferenceWeight)) {\n    continue;\n  }\n\n\n  works.push({\n\n    title:\n      j.title ?? null,\n\n    media_type:\n      j.media_type ?? null,\n\n    user_rating:\n      Number.isFinite(rating)\n        ? rating\n        : null,\n\n    preference_weight:\n      preferenceWeight,\n\n    semantic:\n      semantic\n\n  });\n\n}\n\n\n// ============================================================\n// SAFETY CHECK\n// ============================================================\n\nif (works.length === 0) {\n\n  throw new Error(\n    'No valid works found. Check semantic output and rating/preference data after Merge3.'\n  );\n\n}\n\n\n// ============================================================\n// BUILD DIMENSION LIST\n// ============================================================\n\nconst dimensionKeys = [];\n\nconst firstSemantic =\n  works[0].semantic;\n\n\nfor (\n  const [group, dimensions]\n  of Object.entries(firstSemantic)\n) {\n\n  if (\n    !dimensions ||\n    typeof dimensions !== 'object'\n  ) {\n    continue;\n  }\n\n\n  for (\n    const dimension\n    of Object.keys(dimensions)\n  ) {\n\n    dimensionKeys.push({\n      group,\n      dimension\n    });\n\n  }\n\n}\n\n\n// ============================================================\n// GLOBAL PREFERENCE STATISTICS\n// ============================================================\n\nconst meanPreference =\n  works.reduce(\n    (sum, work) =>\n      sum + work.preference_weight,\n    0\n  ) / works.length;\n\n\n// ============================================================\n// CALCULATE DIMENSION STATISTICS\n// ============================================================\n\nconst results = [];\n\n\nfor (\n  const { group, dimension }\n  of dimensionKeys\n) {\n\n\n  // ----------------------------------------------------------\n  // Collect observations\n  // ----------------------------------------------------------\n\n  const observations =\n    works\n      .map(work => ({\n\n        semantic_score:\n          Number(\n            work.semantic?.[group]?.[dimension]\n          ),\n\n        preference_weight:\n          work.preference_weight,\n\n        media_type:\n          work.media_type\n\n      }))\n      .filter(obs =>\n\n        Number.isFinite(\n          obs.semantic_score\n        ) &&\n\n        Number.isFinite(\n          obs.preference_weight\n        )\n\n      );\n\n\n  if (observations.length === 0) {\n    continue;\n  }\n\n\n  // ==========================================================\n  // 1. PREVALENCE\n  // ==========================================================\n\n  const prevalence =\n    observations.reduce(\n      (sum, o) =>\n        sum + o.semantic_score,\n      0\n    ) / observations.length;\n\n\n  // ==========================================================\n  // 2. PREFERENCE ASSOCIATION\n  // ==========================================================\n  //\n  // Pearson correlation:\n  //\n  // semantic score ↔ preference weight\n  //\n  // ==========================================================\n\n  const semanticScores =\n    observations.map(\n      o => o.semantic_score\n    );\n\n\n  const preferenceWeights =\n    observations.map(\n      o => o.preference_weight\n    );\n\n\n  const preferenceAssociation =\n    pearsonCorrelation(\n      semanticScores,\n      preferenceWeights\n    );\n\n\n  // ==========================================================\n  // 3. EVIDENCE COUNT\n  // ==========================================================\n\n  const evidenceCount =\n    observations.filter(\n      o =>\n        o.semantic_score >= 0.25\n    ).length;\n\n\n  // ==========================================================\n  // 4. MEDIA-SPECIFIC EVIDENCE\n  // ==========================================================\n\n  const filmEvidence =\n    observations.filter(\n      o =>\n        o.media_type === 'film' &&\n        o.semantic_score >= 0.25\n    ).length;\n\n\n  const bookEvidence =\n    observations.filter(\n      o =>\n        o.media_type === 'book' &&\n        o.semantic_score >= 0.25\n    ).length;\n\n\n  // ==========================================================\n  // 5. EVIDENCE CONFIDENCE\n  // ==========================================================\n  //\n  // This describes how much useful evidence exists.\n  //\n  // It does NOT mean:\n  // \"91% probability that the user likes this.\"\n  //\n  // ==========================================================\n\n\n  // Evidence-volume component.\n  //\n  // At 30 meaningful works, this component reaches 1.\n  const evidenceVolume =\n    Math.min(\n      evidenceCount / 30,\n      1\n    );\n\n\n  // Semantic variation component.\n  //\n  // If a dimension receives essentially the same score for\n  // every work, it is less useful for distinguishing taste.\n  const variance =\n    observations.reduce(\n      (sum, o) =>\n\n        sum +\n        Math.pow(\n          o.semantic_score -\n          prevalence,\n          2\n        ),\n\n      0\n    ) / observations.length;\n\n\n  const standardDeviation =\n    Math.sqrt(variance);\n\n\n  const variationEvidence =\n    Math.min(\n      standardDeviation / 0.35,\n      1\n    );\n\n\n  const evidenceConfidence =\n    (\n      evidenceVolume * 0.70\n    ) +\n    (\n      variationEvidence * 0.30\n    );\n\n\n  // ==========================================================\n  // 6. CROSS-MEDIA STATUS\n  // ==========================================================\n  //\n  // This is descriptive only.\n  //\n  // We require evidence from BOTH media types before calling\n  // a signal cross-media.\n  //\n  // ==========================================================\n\n  let evidenceScope = 'limited';\n\n\n  if (\n    filmEvidence >= 3 &&\n    bookEvidence >= 3\n  ) {\n\n    evidenceScope =\n      'cross_media';\n\n  } else if (\n    filmEvidence >= 3 &&\n    bookEvidence < 3\n  ) {\n\n    evidenceScope =\n      'film_dominant';\n\n  } else if (\n    bookEvidence >= 3 &&\n    filmEvidence < 3\n  ) {\n\n    evidenceScope =\n      'book_dominant';\n\n  }\n\n\n  // ==========================================================\n  // SAVE DIMENSION\n  // ==========================================================\n\n  results.push({\n\n    group:\n      group,\n\n    dimension:\n      dimension,\n\n    prevalence:\n      round(prevalence),\n\n    preference_association:\n      round(preferenceAssociation),\n\n    evidence_count:\n      evidenceCount,\n\n    film_evidence:\n      filmEvidence,\n\n    book_evidence:\n      bookEvidence,\n\n    evidence_scope:\n      evidenceScope,\n\n    evidence_confidence:\n      round(evidenceConfidence),\n\n    total_works:\n      observations.length\n\n  });\n\n}\n\n\n// ============================================================\n// RANKINGS\n// ============================================================\n\n\n// Strongest positive relationships\nconst strongestPositive =\n  [...results]\n\n    .filter(\n      r =>\n        r.preference_association > 0\n    )\n\n    .sort(\n      (a, b) =>\n        b.preference_association -\n        a.preference_association\n    )\n\n    .slice(0, 10);\n\n\n// Strongest negative relationships\nconst strongestNegative =\n  [...results]\n\n    .filter(\n      r =>\n        r.preference_association < 0\n    )\n\n    .sort(\n      (a, b) =>\n        a.preference_association -\n        b.preference_association\n    )\n\n    .slice(0, 10);\n\n\n// All dimensions ranked by absolute association strength\nconst strongestSignals =\n  [...results]\n\n    .sort(\n      (a, b) =>\n        Math.abs(\n          b.preference_association\n        ) -\n        Math.abs(\n          a.preference_association\n        )\n    );\n\n\n// ============================================================\n// MEDIA COUNTS\n// ============================================================\n\nconst filmCount =\n  works.filter(\n    work =>\n      work.media_type === 'film'\n  ).length;\n\n\nconst bookCount =\n  works.filter(\n    work =>\n      work.media_type === 'book'\n  ).length;\n\n\n// ============================================================\n// OUTPUT\n// ============================================================\n\nreturn [\n  {\n    json: {\n\n      model_version:\n        'taste_model_v0.3',\n\n      works_analyzed:\n        works.length,\n\n      films_analyzed:\n        filmCount,\n\n      books_analyzed:\n        bookCount,\n\n      dimensions_analyzed:\n        results.length,\n\n      mean_preference_weight:\n        round(meanPreference),\n\n      methodology: {\n\n        preference_input:\n          'Continuous rating-derived preference weight from -1 to +1',\n\n        prevalence:\n          'Mean semantic presence across analyzed works',\n\n        preference_association:\n          'Pearson correlation between semantic dimension score and rating-derived preference weight',\n\n        evidence_count:\n          'Number of works where semantic score >= 0.25',\n\n        evidence_confidence:\n          'POC evidence-strength heuristic combining evidence volume (70%) and semantic variation (30%); not a probability or statistical confidence interval',\n\n        evidence_scope:\n          'Cross-media when at least 3 films and 3 books provide meaningful evidence'\n\n      },\n\n      strongest_positive_signals:\n        strongestPositive,\n\n      strongest_negative_signals:\n        strongestNegative,\n\n      all_dimensions:\n        strongestSignals\n\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2416,
+        -32
+      ],
+      "id": "63bda18b-d0b9-42de-9957-dd09cd5d9084",
+      "name": "Calculate Taste Model"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "REPLACE_WITH_YOUR_N8N_DATA_TABLE_ID",
+          "mode": "list",
+          "cachedResultName": "Taste Test — reselect after import"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "media_type",
+              "condition": "neq"
+            }
+          ]
+        },
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "a16b827f-82bd-47c3-a188-b681b83c6623",
+      "name": "Get row(s)",
+      "alwaysOutputData": true
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get row(s)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Enrich w/ metadata1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "Enrich w/ metadata",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge2": {
+      "main": [
+        [
+          {
+            "node": "AI prep",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge3",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Merge3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enrich w/ metadata": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Enrich w/ metadata1": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI prep": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge3": {
+      "main": [
+        [
+          {
+            "node": "Calculate Taste Model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s)": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  }
+}
